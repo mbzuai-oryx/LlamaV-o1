@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Rethinking Step-by-step Visual Reasoning in LLMs">
+    <meta name="keywords" content="ReasoningChain-Bench, Reasoning, VLM, Benchmark, LMM">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LlamaV-o1: Rethinking Step-by-step Visual Reasoning in LLMs</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-PYVRSFMDRL');
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="./static/css/leaderboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/icon.png">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #content-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        #pie-chart {
+            width: 400px;
+            height: 400px;
+        }
+
+        #image-container {
+            width: 100%;
+            height: 400px;
+        }
+
+        #image-container img {
+            max-width: 80%;
+            height: auto;
+        }
+
+        .chart-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 2000px;
+            margin: 0 auto;
+        }
+
+        .bar-chart {
+            width: 400px;
+            height: 300px;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title is-bold">
+                            <img src="static/images/icon.jpg" style="width:1em;vertical-align: middle" alt="Logo" />
+                            <span class="mmmu" style="vertical-align: middle">LlamaV-o1</span>
+                        </h1>
+                        <h2 class="subtitle is-3 publication-subtitle">
+                            Rethinking Step-by-step Visual Reasoning in LLMs
+                        </h2>
+                        <!-- <div class="is-size-5 publication-authors">               
+        <p>
+            Sara Ghaboura<sup style="color:#3399FF;">1*</sup>, 
+            Ahmed Heakl<sup style="color:#3399FF;">1*</sup>, 
+            Omkar Thawakar<sup style="color:#3399FF;">1</sup>, 
+            Ali Alharthi<sup style="color:#3399FF;">1</sup>, 
+            Ines Riahi<sup style="color:#4CB5AE;">2</sup>, 
+            Abduljalil Saif<sup style="color:#4CB5AE;">2</sup>, 
+            Jorma Laaksonen<sup style="color:#4CB5AE;">2</sup>, 
+            Fahad S. Khan<sup style="color:#3399FF;">1, </sup><sup style="color:#FF66B3;">3</sup>, 
+            Salman Khan<sup style="color:#3399FF;">1, </sup><sup style="color:#FFA280;">4</sup>, 
+            Rao M. Anwer<sup style="color:#3399FF;">1, </sup><sup style="color:#4CB5AE;">2</sup>
+        </p>
+        <p><em>* Equal Contributions</em></p>
+        <p>
+            <sup style="color:#3399FF;">1</sup>Mohamed bin Zayed University of AI, 
+            <sup style="color:#4CB5AE;">2</sup>Aalto University, 
+            <sup style="color:#FF66B3;">3</sup>Linköping University, 
+            <sup style="color:#FFA280;">4</sup>Australian National University
+        </p>
+        </div> -->
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <!-- PDF Link. -->
+                                <!-- <span class="link-block">
+                                    <a href="https://arxiv.org/pdf/2410.18976"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </span>
+                                        <span>Paper</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="https://arxiv.org/abs/2410.18976"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv</span>
+                                    </a>
+                                </span> -->
+                                <!-- Code Link. -->
+                                <span class="link-block">
+                                    <a href="https://github.com/mbzuai-oryx/LlamaV-o1   "
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+                                <!-- Dataset Link. -->
+                                <span class="link-block">
+                                    <a href="https://huggingface.co/datasets/omkarthawakar/ReasoningChain-Bench"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon" style="font-size:18px">🤗</span>
+                                        <span>Dataset</span>
+                                    </a>
+                                </span>
+                                <!-- Model Link. -->
+                                <span class="link-block">
+                                    <a href="https://huggingface.co/omkarthawakar/LlamaV-o1"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <p style="font-size:18px">🏆</p>
+                                        </span>
+                                        <span>Model</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero teaser">
+        <div class="container is-max-desktop has-text-centered">
+            <img src="static/images/intro_figure.jpg" alt="geometric reasoning">
+            <p><i>The figure illustrates a comprehensive dataset structure designed to evaluate diverse tasks across
+                    multiple domains. The dataset spans a wide range of categories, including mathematical and logical
+                    reasoning (e.g., <a href="https://arxiv.org/abs/2310.02255">MathVista</a> with 231 samples and
+                    <a href="https://arxiv.org/abs/2407.04973">LogicVista</a> with 158 samples),
+                    scientific reasoning (e.g., <a href="https://arxiv.org/abs/2209.09513">Science-QA</a> with 83
+                    samples), and visual perception
+                    (e.g., <a href="https://arxiv.org/abs/2404.12390">Blink-IQ-Test</a> with 35 samples).</i></p>
+            <br>
+            <p><i>Additionally, it includes specialized
+                    areas such as medical imaging (e.g., <a href="https://arxiv.org/abs/2311.16502">MMMU-Medical</a>
+                    with 29 samples), cultural and
+                    social understanding (e.g., <a href="https://arxiv.org/abs/2411.16508">ALM-Bench</a> with 104
+                    samples), and document understanding through OCR (e.g., <a
+                        href="https://arxiv.org/abs/2007.00398">Doc-VQA</a> with 61
+                    samples). By integrating tasks like chart and diagram comprehension (e.g., <a
+                        href="https://arxiv.org/abs/2203.10244">Chart-VQA</a> with 107 samples), our dataset not only
+                    covers a broad spectrum of real-world applications but also expand
+                    LMM's ability to reason, perceive, and interpret complex multimodal information.</i></p>
+            <br>
+            <p><i>The right chart also presents a comparative evaluation of large multimodal models (LMMs) on the
+                    ReasoningChain-Bench, highlighting both final
+                    answer accuracy and step-by-step reasoning scores. The bar chart on the right demonstrates the
+                    performance of various models, such as GPT-4o,
+                    Gemini-2.0-Flash, Claude-3.5-Sonnet, and Llava-CoT, in handling complex reasoning tasks. Our
+                    benchmark evaluates models not only on their
+                    ability to generate accurate final answers but also on the coherence and logical flow of their
+                    reasoning steps. Our approach, LlamaV-o1,
+                    outperforms GPT-4o-mini, Gemini-1.5-Flash and Llava-CoT in the ReasoningChain-Bench, achieving
+                    superior results in final answer accuracy
+                    across complex multimodal reasoning tasks.</i></p>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <!-- News -->
+            <div class="columns is-centered">
+                <div class="column is-full has-text-centered">
+                    <h2 class="title is-3" style="display: inline-flex; align-items: center; justify-content: center;">
+                        <span class="icon" style="margin-right: 8px;">
+                            <img src="static/images/bell.png" alt="News Icon" style="width: 24px; height: 24px;">
+                        </span>
+                        News
+                    </h2>
+                    <p style="font-size: 18px;">
+                        <strong>[2025-01-09]</strong>: Our ReasoningChain-Bench is now available on <a
+                            href="https://huggingface.co/datasets/omkarthawakar/ReasoningChain-Bench">HuggingFace</a>.
+                        We welcome all contributions and look forward to your participation!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <!-- Abstract. -->
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            Reasoning is a fundamental capability for solving complex multi-step problems, particularly
+                            in visual context where sequential step-wise understanding is essential. Existing approaches
+                            lack a comprehensive framework for evaluating visual reasoning and do not emphasize
+                            step-wise problem-solving. To this end, we propose a comprehensive framework for advancing
+                            step-by-step visual reasoning through three key contributions: a new step-by-step visual
+                            reasoning benchmark along with a novel evaluation metric, and an improved visual reasoning
+                            LLM, named LlamaV-o1, that is trained with curriculum learning.
+                        </p>
+                        <p>
+                            <em>First</em>, we introduce a visual reasoning benchmark specifically designed to evaluate
+                            multi-turn reasoning tasks. The benchmark provides a diverse set of challenges, enabling
+                            robust evaluation of LLMs’ abilities to perform accurate and interpretable reasoning across
+                            multiple steps. <em>Second</em>, we propose a novel metric that assesses visual reasoning
+                            quality at the granularity of individual steps, emphasizing both correctness and logical
+                            coherence. The proposed metric offers deeper insights into reasoning performance compared to
+                            traditional end-task accuracy metrics. <em>Third</em>, we present a new visual reasoning
+                            model LlamaV-o1, trained using a multiturn curriculum learning approach, where tasks are
+                            progressively organized to facilitate incremental skill acquisition and problem-solving. The
+                            proposed LlamaV-o1 is designed for multi-turn reasoning and learns step-by-step through a
+                            structured training paradigm. Extensive experiments show that our LlamaV-o1 outperforms
+                            existing open-source models, including the recent Llava-CoT, across multiple metrics.
+                            Notably, LlamaV-o1 exhibits better interpretability, robustness, and adaptability to complex
+                            visual reasoning tasks. Our benchmark, model and code are publicly available.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--/ Abstract. -->
+
+    </section>
+
+    <section class="hero teaser">
+        <div class="container is-max-desktop has-text-centered">
+            <img src="static/images/teaser_figure.jpg" alt="Teaser Figure" style="width: 100%; height: auto;" />
+            <p><i>Comparison of the reasoning abilities of our model (LlamaV-o1) with closed-source Gemini-1.5-Flash and
+                    Claude-3.5-Sonnet on an example pattern recognition task. While Claude-3.5-Sonnet also concludes
+                    "none of the options," its reasoning steps lack full alignment with the observed logic (highlighted
+                    in red). Gemini-1.5-Flash demonstrates weaker reasoning with less coherence (highlighted in red).
+                    Our LlamaV-o1 provides better and systematic reasoning, identifying that option D follows the
+                    established pattern, thereby showcasing its logical reasoning.</i></p>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-full has-text-centered content">
+                    <h2 class="title is-3" id="leaderboard">Leaderboard on ReasoningChain-Bench</h2>
+                    <div class="content">
+                        <p class="mt-3">Performance comparison of different closed-and open-source LMMs on <img
+                                src="static/images/icon.png" style="width:1.0em;vertical-align: middle" alt="Logo" />
+                            <span class="mathvista">ReasoningChain-Bench</span>.
+                        </p>
+                        <table class="js-sort-table" id="results">
+                            <tr>
+                                <td></td>
+                                <td class="js-sort-number"><strong>#</strong></td>
+                                <td class="js-sort-number"><strong>Model</strong></td>
+                                <td class="js-sort-number"><strong>Source</strong></td>
+                                <td class="js-sort-number"><strong><u>Steps Accuracy</u></strong></td>
+                                <td class="js-sort-number"><strong>Final Answer Accuracy</strong></td>
+                            </tr>
+                            <!-- ##### CLOSED SOURCE ##### -->
+                            <tr>
+                                <td rowspan="6"
+                                    style="writing-mode: vertical-rl; text-orientation: mixed; text-align: center; font-weight: bold;">
+                                    Closed-Source Models</td>
+                                <td>1</td>
+                                <td><b class="best-score-text">GPT-4o 🥇</b></td>
+                                <td><a href="https://openai.com/index/hello-gpt-4o/" class="ext-link"
+                                        style="font-size: 16px;">Link</a></td>
+                                <td><b class="best-score-text">76.68</b></td>
+                                <td>59.28</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><b class="best-score-text">Gemini-2.0 Flash 🥈</b></td>
+                                <td><a href="https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/"
+                                        class="ext-link" style="font-size: 16px;">Link</a></td>
+                                <td>74.08</td>
+                                <td>61.16</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><b class="best-score-text">GPT-4o-mini 🥉</b></td>
+                                <td><a href="https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"
+                                        class="ext-link" style="font-size: 16px;">Link</a></td>
+                                <td>74.05</td>
+                                <td>56.39</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><b class="">Claude-3.5 Sonnet</b></td>
+                                <td><a href="https://www.anthropic.com/news/claude-3-5-sonnet" class="ext-link"
+                                        style="font-size: 16px;">Link</a></td>
+                                <td>72.12</td>
+                                <td><b class="best-score-text">61.35</b></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><b class="">Gemini-1.5-Pro</b></td>
+                                <td><a href="https://deepmind.google/technologies/gemini/pro/" class="ext-link"
+                                        style="font-size: 16px;">Link</a></td>
+                                <td>72.12</td>
+                                <td>61.35</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><b class="">Gemini-1.5-Flash</b></td>
+                                <td><a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf"
+                                        class="ext-link" style="font-size: 16px;">Link</a></td>
+                                <td>71.86</td>
+                                <td>54.99</td>
+                            </tr>
+                            <!-- ##### OPEN SOURCE ##### -->
+                            <tr style="border-top: 2px solid black;">
+                                <td rowspan="2"
+                                    style="writing-mode: vertical-rl; text-orientation: mixed; text-align: center; font-weight: bold;">
+                                    Open-Source Models</td>
+                                <td>1</td>
+                                <td><b class="">LlaVa-CoT</b></td>
+                                <td><a href="https://arxiv.org/abs/2411.10440" class="ext-link"
+                                        style="font-size: 16px;">Link</a></td>
+                                <td>66.21</td>
+                                <td>54.09</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><b class="best-score-text">LlamaV-o1 (Ours)</b></td>
+                                <td><a href="" class="ext-link" style="font-size: 16px;">Link</a></td>
+                                <td><b class="best-score-text">68.93</b></td>
+                                <td><b class="best-score-text">56.49</b></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section class="hero teaser">
+        <div class="container is-max-desktop has-text-centered">
+            <img src="static/images/category_scores.jpg" alt="Category Scores" style="width: 120%; height: auto;" />
+            <p><i>The comprehensive comparison of category-wise and overall performance scores achieved by various
+                    models on diverse reasoning tasks. The evaluation spans multiple domains, including Math & Logic
+                    Reasoning, Scientific Reasoning, Complex Visual Perception, Chart & Diagram Understanding, Medical
+                    Imaging, Social & Cultural Context, Visual Reasoning, and OCR & Document Understanding. The models
+                    assessed include GPT-4o, Claude-3.5-Sonnet, Gemini variants, LLAVA-CoT, and our proposed model.
+                    Our model demonstrates consistently superior performance in critical categories such as Math &
+                    Logic Reasoning, Chart & Diagram Understanding, and Medical Imaging, achieving a balanced
+                    improvement across both step-by-step reasoning (Step Scores) and final answer accuracy (Final Answer
+                    Scores). Compared to LLAVA-CoT, our approach excels in maintaining high accuracy across tasks while
+                    showcasing robustness and interpretability in multi-turn reasoning challenges.</i></p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-full has-text-centered content">
+                    <h2 class="title is-3" id="leaderboard">In-The-Wild Evaluations</h2>
+                    <div class="content">
+                        <table style="border-collapse: collapse; width: 100%; text-align: center;">
+                            <caption style="font-weight: bold; margin-bottom: 10px;">
+                                Performance comparison on six benchmark datasets (<a
+                                    href="https://arxiv.org/abs/2403.20330">MMStar</a>, <a
+                                    href="https://arxiv.org/abs/2307.06281">MMBench</a>, <a
+                                    href="https://arxiv.org/abs/2308.02490">MMVet</a>, <a
+                                    href="https://arxiv.org/abs/2310.02255">MathVista</a>, <a
+                                    href="https://arxiv.org/abs/1603.07396">AI2D</a>
+                                , and <a href="https://arxiv.org/abs/2310.14566">Hallusion</a>)
+                                along with their average scores. The comparison includes both close-source and
+                                open-source models.
+                            </caption>
+                            <thead style="background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>Model</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>MMStar</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>MMBench</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>MMVet</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>MathVista</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>AI2D</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>Hallusion</strong></th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;"><strong>Average</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="8" style="text-align: left; padding: 10px; font-weight: bold;">
+                                        Close-Source</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">GPT-4o-0806</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">66.0</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">82.4</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">80.8</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">62.7</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">84.7</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">54.2</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">71.8</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">Claude3.5-Sonnet-0620</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">64.2</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">75.4</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">68.7</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">61.6</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">80.2</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">49.9</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">66.7</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">Gemini-1.5-Pro</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">56.4</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">71.5</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">71.3</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">57.7</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">79.1</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">45.6</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.6</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">GPT-4o-mini-0718</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">54.9</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">76.9</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">74.6</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">52.4</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">77.8</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">46.1</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.8</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8" style="text-align: left; padding: 10px; font-weight: bold;">
+                                        Open-Source</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">internVL2-8B</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">62.50</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">77.40</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">56.90</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">58.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">83.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">45.00</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">64.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">Ovis1.5-Gemma2-9B</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">58.70</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">76.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">50.90</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">65.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">84.50</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">48.20</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">64.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">MiniCPM-V2.6-8B</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">57.10</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">75.70</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">56.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">60.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">82.10</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">48.10</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.30</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">Llama-3.2-90B-Vision-Inst</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">51.10</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">76.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">74.10</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">58.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">69.50</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">44.10</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">62.30</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">VILA-1.5-40B</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">53.20</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">75.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">44.40</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">49.50</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">77.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">40.90</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">56.90</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">Llava-CoT</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">57.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">75.00</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">60.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">54.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">85.70</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">47.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.50</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8" style="text-align: left; padding: 10px; font-weight: bold;">Our
+                                        Models</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">Llama-3.2-11B-Vision-Inst</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">49.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">65.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">57.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">48.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">77.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">40.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">56.90</td>
+                                </tr>
+                                <tr style="background-color: #ffecb3;">
+                                    <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">LlamaV-o1
+                                        (Ours)</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">59.53</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">79.89</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">65.40</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">54.40</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">81.24</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.51</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">67.33</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-full has-text-centered content">
+                    <h2 class="title is-3" id="leaderboard">Ablations</h2>
+                    <div class="content">
+                        <table style="border-collapse: collapse; width: 100%; text-align: center;">
+                            <caption style="font-weight: bold; margin-bottom: 10px;">
+                                The impact of proposed contributions on multimodal reasoning tasks
+                                across six
+                                benchmarks.
+                            </caption>
+                            <thead style="background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>Model</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>MMStar</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>MMBench</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>MMVet</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>MathVista</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>AI2D</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>Hallusion</strong>
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">
+                                        <strong>Average</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">
+                                        Llama-3.2-11B-Vision-Inst
+                                        (<em>base</em>)</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">49.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">65.80</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">57.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">48.60</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">77.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">40.30</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">56.90</td>
+                                </tr>
+                                <tr style="background-color: #ffecb3;">
+                                    <td style="border: 1px solid #ddd; padding: 8px;">+ Curriculum
+                                        with Multi-Turn CoT
+                                        Reasoning</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">58.13</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">79.55</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">61.88</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">53.20</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">80.18</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.51</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">66.08</td>
+                                </tr>
+                                <tr style="background-color: #fff2cc;">
+                                    <td style="border: 1px solid #ddd; padding: 8px;">+ Best-of-N
+                                        Beam Search</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">59.53</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">79.89</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">65.40</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">54.40</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">81.24</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">63.51</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">67.33</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="display: flex; justify-content: space-between; gap: 20px;">
+                            <div style="width: 49%;">
+                                <table style="border-collapse: collapse; width: 100%; text-align: center;">
+                                    <caption style="font-weight: bold; margin-bottom: 10px;">
+                                        Llava-CoT using Stage-level Beam Search (MMVet Benchmark)
+                                    </caption>
+                                    <thead style="background-color: #f2f2f2;">
+                                        <tr>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong>Inference
+                                                    Scaling</strong></th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong># Beams</strong>
+                                            </th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong>MMVet
+                                                    Score</strong></th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong>Time (GPU
+                                                    Hours)</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">No Scaling</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">1</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">60.3</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">3.8</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Stage-level</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">2</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">61.7</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">20.1</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Stage-level</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">3</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">62.3</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">31.5</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Stage-level</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">4</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">62.9</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">46.1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="width: 49%;">
+                                <table style="border-collapse: collapse; width: 100%; text-align: center;">
+                                    <caption style="font-weight: bold; margin-bottom: 10px;">
+                                        Our Approach using Best-of-N Beam Search (MMVet Benchmark)
+                                    </caption>
+                                    <thead style="background-color: #f2f2f2;">
+                                        <tr>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong>Inference
+                                                    Scaling</strong></th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong># Beams</strong>
+                                            </th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong>MMVet
+                                                    Score</strong></th>
+                                            <th style="border: 1px solid #ddd; padding: 8px;"><strong>Time (GPU
+                                                    Hours)</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">No Scaling</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">1</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">63.63</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">2.7</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Best-of-N</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">2</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">64.26</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">4.8</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Best-of-N</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">3</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">64.92</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">5.7</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Best-of-N</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">4</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">65.40</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">6.1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+
+    <footer class="footer">
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p>
+                        This website is website adapted from <a href="https://nerfies.github.io/">Nerfies</a> and <a
+                            href="https://mathvista.github.io/">MathVista</a>, licensed under a <a rel="license"
+                            href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                            Commons Attribution-ShareAlike 4.0 International License</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
