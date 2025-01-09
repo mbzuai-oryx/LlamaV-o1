@@ -1,5 +1,5 @@
-# CAMEL-Bench
-Homepage of CAMEL-Bench, A Comprehensive Arabic LMM Benchmark. 
+# LlamaV-o1
+Homepage of LlamaV-o1, Rethinking Step-by-step Visual Reasoning in LLMs. 
 
 This website is adapted from [Nerfies website](https://nerfies.github.io) and [MathVista](https://mathvista.github.io/).
 
