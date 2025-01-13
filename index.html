@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Rethinking Step-by-step Visual Reasoning in LLMs">
-    <meta name="keywords" content="ReasoningChain-Bench, Reasoning, VLM, Benchmark, LMM">
+    <meta name="keywords" content="VRC-Bench, Reasoning, VLM, Benchmark, LMM">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LlamaV-o1: Rethinking Step-by-step Visual Reasoning in LLMs</title>
 
@@ -144,7 +144,7 @@
                                 </span> -->
                                 <!-- Code Link. -->
                                 <span class="link-block">
-                                    <a href="https://github.com/mbzuai-oryx/LlamaV-o1   "
+                                    <a href="https://github.com/mbzuai-oryx/LlamaV-o1"
                                         class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon">
                                             <i class="fab fa-github"></i>
@@ -154,7 +154,7 @@
                                 </span>
                                 <!-- Dataset Link. -->
                                 <span class="link-block">
-                                    <a href="https://huggingface.co/datasets/omkarthawakar/ReasoningChain-Bench"
+                                    <a href="https://huggingface.co/datasets/omkarthawakar/VRC-Bench"
                                         class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon" style="font-size:18px">🤗</span>
                                         <span>Dataset</span>
@@ -201,14 +201,14 @@
                     LMM's ability to reason, perceive, and interpret complex multimodal information.</i></p>
             <br>
             <p><i>The right chart also presents a comparative evaluation of large multimodal models (LMMs) on the
-                    ReasoningChain-Bench, highlighting both final
+                    VRC-Bench, highlighting both final
                     answer accuracy and step-by-step reasoning scores. The bar chart on the right demonstrates the
                     performance of various models, such as GPT-4o,
                     Gemini-2.0-Flash, Claude-3.5-Sonnet, and Llava-CoT, in handling complex reasoning tasks. Our
                     benchmark evaluates models not only on their
                     ability to generate accurate final answers but also on the coherence and logical flow of their
                     reasoning steps. Our approach, LlamaV-o1,
-                    outperforms GPT-4o-mini, Gemini-1.5-Flash and Llava-CoT in the ReasoningChain-Bench, achieving
+                    outperforms GPT-4o-mini, Gemini-1.5-Flash and Llava-CoT in the VRC-Bench, achieving
                     superior results in final answer accuracy
                     across complex multimodal reasoning tasks.</i></p>
         </div>
@@ -227,8 +227,8 @@
                         News
                     </h2>
                     <p style="font-size: 18px;">
-                        <strong>[2025-01-09]</strong>: Our ReasoningChain-Bench is now available on <a
-                            href="https://huggingface.co/datasets/omkarthawakar/ReasoningChain-Bench">HuggingFace</a>.
+                        <strong>[2025-01-09]</strong>: Our VRC-Bench is now available on <a
+                            href="https://huggingface.co/datasets/omkarthawakar/VRC-Bench">HuggingFace</a>.
                         We welcome all contributions and look forward to your participation!
                     </p>
                 </div>
@@ -292,11 +292,11 @@
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-full has-text-centered content">
-                    <h2 class="title is-3" id="leaderboard">Leaderboard on ReasoningChain-Bench</h2>
+                    <h2 class="title is-3" id="leaderboard">Leaderboard on VRC-Bench</h2>
                     <div class="content">
                         <p class="mt-3">Performance comparison of different closed-and open-source LMMs on <img
                                 src="static/images/icon.png" style="width:1.0em;vertical-align: middle" alt="Logo" />
-                            <span class="mathvista">ReasoningChain-Bench</span>.
+                            <span class="mathvista">VRC-Bench</span>.
                         </p>
                         <table class="js-sort-table" id="results">
                             <tr>
@@ -365,6 +365,22 @@
                                     style="writing-mode: vertical-rl; text-orientation: mixed; text-align: center; font-weight: bold;">
                                     Open-Source Models</td>
                                 <td>1</td>
+                                <td><b class="">Llama-3.2-Vision-Instruct</b></td>
+                                <td><a href="https://huggingface.co/meta-llama/Llama-3.2-11B-Vision" class="ext-link"
+                                        style="font-size: 16px;">Link</a></td>
+                                <td>56.37</td>
+                                <td>48.40</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><b class="">Mulberry</b></td>
+                                <td><a href="https://arxiv.org/abs/2412.18319" class="ext-link"
+                                        style="font-size: 16px;">Link</a></td>
+                                <td>63.86</td>
+                                <td>51.90</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
                                 <td><b class="">LlaVa-CoT</b></td>
                                 <td><a href="https://arxiv.org/abs/2411.10440" class="ext-link"
                                         style="font-size: 16px;">Link</a></td>
@@ -372,7 +388,7 @@
                                 <td>54.09</td>
                             </tr>
                             <tr>
-                                <td>2</td>
+                                <td>4</td>
                                 <td><b class="best-score-text">LlamaV-o1 (Ours)</b></td>
                                 <td><a href="" class="ext-link" style="font-size: 16px;">Link</a></td>
                                 <td><b class="best-score-text">68.93</b></td>
@@ -636,7 +652,7 @@
                                     <td style="border: 1px solid #ddd; padding: 8px;">66.08</td>
                                 </tr>
                                 <tr style="background-color: #fff2cc;">
-                                    <td style="border: 1px solid #ddd; padding: 8px;">+ Best-of-N
+                                    <td style="border: 1px solid #ddd; padding: 8px;">+ Beam-Search
                                         Beam Search</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">59.53</td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">79.89</td>
@@ -719,19 +735,19 @@
                                             <td style="border: 1px solid #ddd; padding: 8px;">2.7</td>
                                         </tr>
                                         <tr>
-                                            <td style="border: 1px solid #ddd; padding: 8px;">Best-of-N</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Beam-Search</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">2</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">64.26</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">4.8</td>
                                         </tr>
                                         <tr>
-                                            <td style="border: 1px solid #ddd; padding: 8px;">Best-of-N</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Beam-Search</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">3</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">64.92</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">5.7</td>
                                         </tr>
                                         <tr>
-                                            <td style="border: 1px solid #ddd; padding: 8px;">Best-of-N</td>
+                                            <td style="border: 1px solid #ddd; padding: 8px;">Beam-Search</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">4</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">65.40</td>
                                             <td style="border: 1px solid #ddd; padding: 8px;">6.1</td>
