@@ -15,8 +15,8 @@
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for the latest update.</h5>
 
 ## 📣 Latest Updates
-- **Junuary-13-2025**: Technical Report of LlamaV-o1 is released on Arxiv. [Paper](https://arxiv.org/list/cs.CV/recent)
-- **Junuary-10-2025**: *Code, Model & Dataset release. Our VCR-Bench is available at: [HuggingFace](https://huggingface.co/datasets/omkarthawakar/VRC-Bench). Model Checkpoint: [HuggingFace](https://huggingface.co/omkarthawakar/LlamaV-o1). Code is available at: [GitHub](https://github.com/mbzuai-oryx/LlamaV-o1/).🤗
+- **January-13-2025**: Technical Report of LlamaV-o1 is released on Arxiv. [Paper](https://arxiv.org/list/cs.CV/recent)
+- **January-10-2025**: *Code, Model & Dataset release. Our VCR-Bench is available at: [HuggingFace](https://huggingface.co/datasets/omkarthawakar/VRC-Bench). Model Checkpoint: [HuggingFace](https://huggingface.co/omkarthawakar/LlamaV-o1). Code is available at: [GitHub](https://github.com/mbzuai-oryx/LlamaV-o1/).🤗
 --- 
 
 ## 🔥 Highlights
