@@ -106,7 +106,7 @@ class llama_vision(BaseModel):
             reasoning_prompt = f"""Now you act as a judge, helping me determine whether the reasoning process in the given text is correct and accurate based on the given information.
             You should assume that the given information about the image is correct.
             You should only consider the reasoning process itself, not the correctness of the background information.  
-            If the reasoning process invovles any calculations, you should verify the accuracy of the calculations.
+            If the reasoning process involves any calculations, you should verify the accuracy of the calculations.
             You should output 'correct' if you don't find any errors in the reasoning process, and 'incorrect' if you find any errors."""
             
             reasoning_prompt_1 = reasoning_prompt + f'\n\nGiven Information: {hint}' + f'\n\nReasoning Process: {input_outputs[0]}'
