@@ -2,7 +2,7 @@
 <img src="figures/logo2.png" width="100px">
 </div>
 
-<h2 align="center"> LlamaV-o1: Rethinking Step-By-Step Visual Reasoning in LLMs</h2>
+<h2 align="center"> LlamaV-o1: Rethinking Step-By-Step Visual Reasoning in LLMs [ACL 2025 🔥]</h2>
 
 ![](https://i.imgur.com/waxVImv.png)
 
