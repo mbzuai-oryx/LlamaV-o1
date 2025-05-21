@@ -15,6 +15,7 @@
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for the latest update.</h5>
 
 ## 📣 Latest Updates
+- **May-15-2025**: LlamaV-o1 Accepted in ACL-2025 finding. 
 - **January-13-2025**: Technical Report of LlamaV-o1 is released on Arxiv. [Paper](https://arxiv.org/abs/2501.06186)
 - **January-10-2025**: *Code, Model & Dataset release. Our VCR-Bench is available at: [HuggingFace](https://huggingface.co/datasets/omkarthawakar/VRC-Bench). Model Checkpoint: [HuggingFace](https://huggingface.co/omkarthawakar/LlamaV-o1). Code is available at: [GitHub](https://github.com/mbzuai-oryx/LlamaV-o1/).🤗
 --- 
